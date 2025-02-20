@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário Simples</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
+
+    <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+        <h2 class="text-2xl font-semibold text-gray-700 text-center mb-4">Formulário</h2>
+        <form action="ex002.php" method="POST">
+            <div class="mb-4">
+                <label class="block text-gray-600 text-sm mb-1">Nome</label>
+                <input id="name" name="name" type="text" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-600 text-sm mb-1">Endereco</label>
+                <input id="endereco" name="endereco" type="text" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-600 text-sm mb-1">Bairro</label>
+                <input id="bairro" name="bairro" type="text" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-600 text-sm mb-1">Cidade</label>
+                <input id="cidade" name="cidade" type="text" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">Enviar</button>
+        </form>
+    </div>
+
+</body>
+</html>

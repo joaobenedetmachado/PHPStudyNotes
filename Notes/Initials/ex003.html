@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário Simples</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
+
+    <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+        <h2 class="text-2xl font-semibold text-gray-700 text-center mb-4">Formulário</h2>
+        <form action="ex003.php" method="POST">
+            <div class="mb-4">
+                <label class="block text-gray-600 text-sm mb-1">Nota 1</label>
+                <input id="n1" name="nota1" type="number" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-600 text-sm mb-1">Nota 2</label>
+                <input id="n2" name="nota2" type="number" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-600 text-sm mb-1">Nota 3</label>
+                <input id="n3" name="nota3" type="number" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">Enviar</button>
+        </form>
+    </div>
+
+</body>
+</html>
