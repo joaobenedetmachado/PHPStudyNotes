@@ -14,15 +14,15 @@
                 <form  name="formulariocurso" method="POST" action="./scripts/cadastrocurso.php">
                     <div class="mb-3">
                             <label class="form-label">Código</label>
-                            <input type="number" name="cursocodigo" class="form-control" required>
+                            <input type="number" name="cursocodigo" class="form-control"  >
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Nome</label>
-                            <input type="text" name="cursonome" class="form-control" required>
+                            <input type="text" name="cursonome" class="form-control"  >
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Coordenador</label>
-                            <input type="text" name="cursocoordenador" class="form-control" required>
+                            <input type="text" name="cursocoordenador" class="form-control"  >
                         </div>
                         <button type="submit" name="cadastrarcurso" value="cadastrarcurso" class="btn btn-primary">Cadastrar</button>
                         <button type="submit" name="alterarcurso" value="alterarcurso" class="btn btn-primary">Alterar</button>
@@ -32,28 +32,20 @@
                 </div>
                 
                 <div class="col-md-4">
-                    <h3>Cadastro de Professor</h3>
-                    <form  name="formularioprofessor" action="cadastroprofessor.php">
+                    <h3>Cadastro de Coordenador</h3>
+                    <form  name="formulariocoordenador" method="POST" action="./scripts/cadastrocoordenador.php">
                         <div class="mb-3">
                             <label class="form-label">Código</label>
-                            <input type="number" class="form-control" required>
+                            <input type="number" name="coordenadorcodigo" class="form-control"  >
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Nome</label>
-                            <input type="text" class="form-control" required>
+                            <input type="text"  name="coordenadornome" class="form-control"  >
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Código do Curso</label>
-                            <input type="number" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Telefone</label>
-                            <input type="text" class="form-control" required>
-                        </div>
-                        <button type="submit" name="cadastrar" value="cadastrar" class="btn btn-primary">Cadastrar</button>
-                        <button type="submit" name="alterar" value="alterar" class="btn btn-primary">Alterar</button>
-                        <button type="submit" name="excluir" value="excluir" class="btn btn-primary">Excluir</button>
-                        <button type="submit" name="pesquisar" value="pesquisar" class="btn btn-primary">Pesquisar</button>
+                        <button type="submit" name="cadastrarcoordenador" value="cadastrarcoordenador" class="btn btn-primary">Cadastrar</button>
+                        <button type="submit" name="alterarcoordenador" value="alterarcoordenador" class="btn btn-primary">Alterar</button>
+                        <button type="submit" name="excluircoordenador" value="excluir" class="btn btn-primary">Excluir</button>
+                        <button type="submit" name="pesquisarcoordenador" value="pesquisar" class="btn btn-primary">Pesquisar</button>
                     </form>
                 </div>
                 
@@ -62,11 +54,11 @@
                     <form  name="formularioaluno" method="POST" action="./scripts/cadastroaluno.php">
                         <div class="mb-3">
                             <label class="form-label">Código</label>
-                            <input type="number" name="alunocodigo" class="form-control" required>
+                            <input type="number" name="alunocodigo" class="form-control"  >
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Nome</label>
-                            <input type="text" name="alunonome" class="form-control" required>
+                            <input type="text" name="alunonome" class="form-control"  >
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Código do Curso</label>
@@ -74,7 +66,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Telefone</label>
-                            <input type="text" name="telefonealuno" class="form-control" required>
+                            <input type="text" name="telefonealuno" class="form-control"  >
                         </div>
                         <button type="submit" name="cadastraraluno" value="cadastraraluno" class="btn btn-primary">Cadastrar</button>
                         <button type="submit" name="alteraraluno" value="alteraraluno" class="btn btn-primary">Alterar</button>
