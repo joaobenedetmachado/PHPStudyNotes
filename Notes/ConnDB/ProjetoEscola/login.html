@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela de Cadastro</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="mb-0">Cadastre-se</h3>
+                    </div>
+                    <div class="card-body p-4">
+                        <form  name="formulariologin" method="POST" action="./scripts/loginusuarios.php">
+                            <div class="mb-3">
+                                <label for="nome" class="form-label">Login</label>
+                                <input type="text" name="login" class="form-control" id="nome" placeholder="Login" required>
+                            </div>
+                            
+                            
+                            <div class="mb-3">
+                                <label for="senha" class="form-label">Senha</label>
+                                <input type="password" name="senha" class="form-control" id="senha" placeholder="Digite sua senha" required>
+                                <div class="form-text">Sua senha deve ter pelo menos 8 caracteres.</div>
+                            </div>
+                            
+                            
+                            
+                            <button type="submit" name="logincurso" class="btn btn-primary w-100 py-2">Cadastrar</button>
+                            
+           
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (opcional) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
