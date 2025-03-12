@@ -17,7 +17,7 @@ if (isset($_POST['logincurso'])) {
         setcookie("login",$login)
         exit(); 
     } else {
-        echo "deu errado" . mysql_error();
+        echo "<script language='javascript'>alert("deu errado filho da puta $mysql_error()" )</script>";
     }
 }
 
