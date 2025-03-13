@@ -1,75 +1,33 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Escola</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-gray-100 font-sans">
 
     <header class="bg-blue-600 text-white">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <h1 class="text-3xl font-bold">Escola XYZ</h1>
-            <nav>
-                <ul class="flex space-x-6 text-lg">
-                    <li><a href="#" class="hover:text-gray-300">INÍCIO</a></li>
-                    <li><a href="./cadastrocurso.html" class="hover:text-gray-300">CADASTROS</a></li>
-                    <li><a href="./login.html" class="hover:text-gray-300">LOGIN</a></li>
-                </ul>
-            </nav>
         </div>
     </header>
-
-    <section class="bg-cover bg-center h-screen text-white" style="background-image: url('https://via.placeholder.com/1500x800');">
-        <div class="flex items-center justify-center h-full bg-black bg-opacity-50">
-            <div class="text-center">
-                <h2 class="text-4xl font-bold mb-4">Bem-vindo à Escola XYZ!</h2>
-                <p class="text-xl mb-8">Educação de qualidade para um futuro brilhante.</p>
-                <a href="#sobre" class="px-6 py-3 bg-blue-500 text-lg rounded-full hover:bg-blue-400 transition">Saiba Mais</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="sobre" class="py-16 bg-white">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl font-bold mb-6">Sobre a Escola</h2>
-            <p class="text-lg text-gray-700 mb-8 max-w-3xl mx-auto">
-                A Escola XYZ é uma instituição de ensino comprometida com a formação integral de seus alunos. Oferecemos uma educação de excelência com uma equipe dedicada de professores e um ambiente acolhedor.
-            </p>
-            <a href="#cursos" class="text-blue-600 font-semibold hover:text-blue-400">Descubra nossos cursos</a>
-        </div>
-    </section>
-
-    <section id="cursos" class="py-16 bg-gray-50">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl font-bold mb-6">Nossos Cursos</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition">
-                    <h3 class="text-2xl font-semibold mb-4">Curso de Matemática</h3>
-                    <p class="text-gray-700 mb-4">Aprenda conceitos de álgebra, geometria e muito mais em nosso curso completo de matemática.</p>
-                    <a href="#" class="text-blue-500 hover:text-blue-400">Saiba mais</a>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition">
-                    <h3 class="text-2xl font-semibold mb-4">Curso de História</h3>
-                    <p class="text-gray-700 mb-4">Explore os eventos mais importantes da história mundial com nosso curso interativo e abrangente.</p>
-                    <a href="#" class="text-blue-500 hover:text-blue-400">Saiba mais</a>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition">
-                    <h3 class="text-2xl font-semibold mb-4">Curso de Ciências</h3>
-                    <p class="text-gray-700 mb-4">Aprenda sobre biologia, física e química com professores experientes e recursos modernos.</p>
-                    <a href="#" class="text-blue-500 hover:text-blue-400">Saiba mais</a>
+    <section class="h-full w-full" style="display: flex; flex-direction: column; justify-content: center;">
+        <div class="container mx-auto px-6 py-8 h-screen" style="display: flex; flex-direction: column; justify-content: center;">
+            <div class="flex flex-col md:flex-row items-center" style="display: flex; flex-direction: column; justify-content: center;">
+                <div style="display: flex; flex-direction: column; justify-content: center;">
+                    <h1 class="text-5xl font-semibold mb-4" style="display: flex; flex-direction: column; justify-content: center;">
+                        Cadastre-se
+                    </h1>
+                   <a class="btn btn-primary" style="padding: 8px;border-radius: 8px; background-color: #3b82f6;" href="./login.html">Cadastrar</a>
                 </div>
             </div>
         </div>
-    </section>
-
-
-    <footer class="bg-gray-800 text-white py-4">
-        <div class="container mx-auto text-center">
-            <p>&copy; 2025 Escola XYZ. Todos os direitos reservados.</p>
-        </div>
-    </footer>
+        </section>
 
 </body>
+
 </html>

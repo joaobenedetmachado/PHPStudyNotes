@@ -11,13 +11,12 @@ if (isset($_POST['logincurso'])) {
 
     $resultado = mysql_query($sql);
     
-    if ($resultado == TRUE) {
-        echo "deu certo, usuario encontrado " . $resultado;
-        header("location:../home.html");
-        setcookie("login",$login)
+    
+    if (mysql_num_rows($resultado) > 0) {
+        header("location:../menu.html");
         exit(); 
     } else {
-        echo "<script language='javascript'>alert("deu errado filho da puta $mysql_error()" )</script>";
+        echo "deu errado";
     }
 }
 
