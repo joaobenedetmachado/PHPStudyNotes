@@ -38,6 +38,21 @@ if (isset($_POST['cadastrarcoordenador'])) {
             echo "deu errado" . mysql_error();
         }
     }
+
+    if (isset($_POST['excluircoordenador'])) {
+        $cursocodigo = $_POST['coordenadorcodigo'];
+    
+        $sql = "DELETE * FROM coordenador WHERE codigo = '$cursocodigo';"; 
+    
+        $resultado = mysql_query($sql);
+    
+        if ($resultado == TRUE) {
+            echo "Coordenador EXCLUIDO: " . $cursonome;
+        } else {
+            echo "deu errado" . mysql_error();
+        }
+    
+    }
     if (isset($_POST['excluircoordenador'])) {
         $coordenadorcodigo = $_POST['coordenadorcodigo'];
     

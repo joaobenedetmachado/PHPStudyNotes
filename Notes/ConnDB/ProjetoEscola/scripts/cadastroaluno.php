@@ -21,6 +21,21 @@ if (isset($_POST['cadastraraluno'])) {
     }
 }
 
+    if (isset($_POST['excluiraluno'])) {
+    $cursocodigo = $_POST['alunocodigo'];
+
+    $sql = "DELETE * FROM aluno WHERE codigo = $cursocodigo;"; 
+
+    $resultado = mysql_query($sql);
+
+    if ($resultado == TRUE) {
+        echo "ALUNO EXCLUIDO: " . $cursonome;
+    } else {
+        echo "deu errado" . mysql_error();
+    }
+
+}
+
 if (isset($_POST['alteraraluno'])) {
 
     $alunocodigo = $_POST['alunocodigo'];

@@ -39,6 +39,21 @@ if (isset($_POST['alterarcurso'])) {
 
 }
 
+if (isset($_POST['excluircurso'])) {
+    $cursocodigo = $_POST['cursocodigo'];
+
+    $sql = "DELETE FROM curso WHERE codigo = '$cursocodigo';"; 
+
+    $resultado = mysql_query($sql);
+
+    if ($resultado == TRUE) {
+        echo "Curso EXCLUIDO: " . $cursonome;
+    } else {
+        echo "deu errado" . mysql_error();
+    }
+
+}
+
 if (isset($_POST['pesquisarcurso'])) {
     $sql = "SELECT * FROM curso";
     $resultado = mysql_query($sql);
