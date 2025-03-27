@@ -157,12 +157,12 @@
                     <div class="form-group">
                         <label for="codigoTipo">Código (5 dígitos):</label>
                         <input type="number" id="codigoTipo" maxlength="5" name="codigotipo"
-                            placeholder="Digite o código do tipo" required>
+                            placeholder="Digite o código do tipo" >
                     </div>
                     <div class="form-group">
                         <label for="nomeTipo">Nome (máx. 50 caracteres):</label>
-                        <input type="text" id="nomeTipo" nome="nometipo" maxlength="50"
-                            placeholder="Digite o nome do tipo" required>
+                        <input type="text" id="nomeTipo" name="nometipo" maxlength="50"
+                            placeholder="Digite o nome do tipo" >
                     </div>
                     <div class="btn-container">
                         <button type="submit" name="enviar" class="btn">Salvar</button>
@@ -178,15 +178,17 @@
                     <div class="form-group">
                         <label for="codigoMarca">Código (5 dígitos):</label>
                         <input type="number" id="codigoMarca" name="codigomarca" maxlength="5"
-                            placeholder="Digite o código da marca" required>
+                            placeholder="Digite o código da marca" >
                     </div>
                     <div class="form-group">
                         <label for="nomeMarca">Nome (máx. 50 caracteres):</label>
                         <input type="text" id="nomeMarca" name="nomemarca" maxlength="50"
-                            placeholder="Digite o nome da marca" required>
+                            placeholder="Digite o nome da marca" >
                     </div>
                     <div class="btn-container">
-                        <button class="btn">Salvar</button>
+                        <button class="btn"  name="enviar" name="enviar">Salvar</button>
+                        <button type="sumbit" name="editar" class="btn">Editar</button>
+                        <button type="sumbit" name="excluir" class="btn">Excluir</button>
                         <button class="btn" style="background-color: #f44336;">Cancelar</button>
                     </div>
                 </div>
@@ -197,57 +199,63 @@
                     <div class="form-group">
                         <label for="codigoCategoria">Código (5 dígitos):</label>
                         <input type="number" name="codigocategoria" id="codigoCategoria" maxlength="5"
-                            placeholder="Digite o código da categoria" required>
+                            placeholder="Digite o código da categoria" >
                     </div>
                     <div class="form-group">
                         <label for="nomeCategoria">Nome (máx. 50 caracteres):</label>
                         <input type="text" name="nomecategoria" id="nomeCategoria" maxlength="50" placeholder="Digite o nome da categoria"
-                            required>
+                            >
                     </div>
                     <div class="btn-container">
-                        <button class="btn">Salvar</button>
+                        <button class="btn"  name="enviar" name="enviar">Salvar</button>
+                        <button type="sumbit" name="editar" class="btn">Editar</button>
+                        <button type="sumbit" name="excluir" class="btn">Excluir</button>
                         <button class="btn" style="background-color: #f44336;">Cancelar</button>
                     </div>
                 </div>
             </form>
-            <form action="cadastrar_produto.php" method="POST" enctype="multipart/form-data"></form>
+            <form action="cadastrar_produto.php" method="POST"                enctype="multipart/form-data">
             <div id="produto" class="form">
                 <h2>Cadastro de Produto</h2>
                 <div class="form-group">
                     <label for="codigoProduto">Código (5 dígitos):</label>
-                    <input type="number" id="codigoProduto" maxlength="5" placeholder="Digite o código do produto"
-                        required>
+                    <input type="number" name="codigo" id="codigoProduto" maxlength="5" placeholder="Digite o código do produto"
+                        >
                 </div>
                 <div class="form-group">
                     <label for="descricaoProduto">Descrição (máx. 100 caracteres):</label>
-                    <input type="text" id="descricaoProduto" maxlength="100" placeholder="Digite a descrição do produto"
-                        required>
+                    <input type="text" name="descricao" id="descricaoProduto" maxlength="100" placeholder="Digite a descrição do produto"
+                        >
                 </div>
                 <div class="form-group">
                     <label for="corProduto">Cor (máx. 50 caracteres):</label>
-                    <input type="text" id="corProduto" maxlength="50" placeholder="Digite a cor do produto" required>
+                    <input type="text" name="cor" id="corProduto" maxlength="50" placeholder="Digite a cor do produto" >
                 </div>
                 <div class="form-group">
                     <label for="tamanhoProduto">Tamanho (máx. 10 caracteres):</label>
-                    <input type="text" id="tamanhoProduto" maxlength="10" placeholder="Digite o tamanho do produto"
-                        required>
+                    <input type="text" id="tamanhoProduto" name="tamanho" maxlength="10" placeholder="Digite o tamanho do produto"
+                        >
                 </div>
                 <div class="form-group">
                     <label for="codCategoria">Código da Categoria (5 dígitos):</label>
-                    <input type="number" id="codCategoria" maxlength="5" placeholder="Digite o código da categoria"
-                        required>
+                    <input type="number" name="codcategoria" id="codCategoria" maxlength="5" placeholder="Digite o código da categoria"
+                        >
                 </div>
                 <div class="form-group">
                     <label for="codTipo">Código do Tipo (5 dígitos):</label>
-                    <input type="number" id="codTipo" maxlength="5" placeholder="Digite o código do tipo" required>
+                    <input type="number" name="codtipo" id="codTipo" maxlength="5" placeholder="Digite o código do tipo" >
                 </div>
                 <div class="form-group">
                     <label for="codMarca">Código da Marca (5 dígitos):</label>
-                    <input type="number" id="codMarca" maxlength="5" placeholder="Digite o código da marca" required>
+                    <input type="number" id="codMarca" name="codmarca" maxlength="5" placeholder="Digite o código da marca" >
+                </div>
+                <div class="form-group">
+                    <label for="codPreco">Preco:</label>
+                    <input type="number" id="codPreco" name="preco" maxlength="5" placeholder="Digite o código da marca" >
                 </div>
                 <div class="form-group">
                     <label for="foto1">Foto 1:</label>
-                    <input type="file" id="foto1" class="file-input" accept="image/*"
+                    <input type="file" id="foto1" class="file-input" name="foto1" accept="image/*"
                         onchange="previewFile(this, 'preview1')">
                     <div class="preview-container">
                         <div class="preview-box" id="preview1">
@@ -257,7 +265,7 @@
                 </div>
                 <div class="form-group">
                     <label for="foto2">Foto 2:</label>
-                    <input type="file" id="foto2" class="file-input" accept="image/*"
+                    <input type="file" id="foto2" class="file-input" name="foto2" accept="image/*"
                         onchange="previewFile(this, 'preview2')">
                     <div class="preview-container">
                         <div class="preview-box" id="preview2">
@@ -266,7 +274,10 @@
                     </div>
                 </div>
                 <div class="btn-container">
-                    <button class="btn">Salvar</button>
+                    <button class="btn" name="enviar">Salvar</button>
+                    <button class="btn" name="alterar">Editar</button>
+                    <button class="btn" name="excluir">Excluir</button>
+
                     <button class="btn" style="background-color: #f44336;">Cancelar</button>
                 </div>
             </div>

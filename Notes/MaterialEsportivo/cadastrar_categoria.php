@@ -3,10 +3,10 @@ $connect = mysql_connect("localhost", "root" ,"");
 $banco = mysql_select_db("loja");
 
 if(isset($_POST['enviar'])) {
-    $codigo = $_POST['codigotipo'];
-    $nome = $_POST['nometipo'];
+    $codigo = $_POST['codigocategoria'];
+    $nome = $_POST['nomecategoria'];
 
-    $sql = "INSERT INTO tipo (codigo, nome) VALUES ('$codigo', '$nome')";
+    $sql = "INSERT INTO categoria (codigo, nome) VALUES ('$codigo', '$nome')";
     mysql_query($sql);
     if (mysql_affected_rows() > 0) {
         echo "<script>alert('Cadastro atualizado com sucesso!'); window.location='cadastro.html';</script>";
@@ -16,10 +16,10 @@ if(isset($_POST['enviar'])) {
 }
 
 if(isset($_POST['editar'])) {
-    $codigo = $_POST['codigotipo'];
-    $novo_nome = $_POST['nometipo'];
+    $codigo = $_POST['codigocategoria'];
+    $novo_nome = $_POST['nomecategoria'];
 
-    $sql = "UPDATE tipo SET nome = '$novo_nome' WHERE codigo = '$codigo'";
+    $sql = "UPDATE categoria SET nome = '$novo_nome' WHERE codigo = '$codigo'";
     mysql_query($sql);
     
     if (mysql_affected_rows() > 0) {
@@ -30,9 +30,9 @@ if(isset($_POST['editar'])) {
 } 
 
 if (isset($_POST['excluir'])) {
-    $codigo = $_POST['codigotipo'];
+    $codigo = $_POST['codigocategoria'];
 
-    $sql = "DELETE FROM tipo WHERE codigo = '$codigo'";
+    $sql = "DELETE FROM categoria WHERE codigo = '$codigo'";
     mysql_query($sql);
 
     if (mysql_affected_rows() > 0) {

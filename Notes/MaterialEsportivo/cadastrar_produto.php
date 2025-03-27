@@ -1,14 +1,13 @@
 <?php
-//conectar com o servidor e banco
 $conectar = mysql_connect('localhost','root','');
 $banco    = mysql_select_db("loja");
 
-if (isset($_POST['gravar']))
+if (isset($_POST['enviar']))
 {
     $codigo            = $_POST['codigo'];
     $descricao         = $_POST['descricao'];
     $codcategoria      = $_POST['codcategoria'];
-    $codclassificacao  = $_POST['codclassificacao'];
+    $codtipo           = $_POST['codtipo'];
     $codmarca          = $_POST['codmarca'];
     $cor               = $_POST['cor'];
     $tamanho           = $_POST['tamanho'];
@@ -16,10 +15,6 @@ if (isset($_POST['gravar']))
     $foto1             = $_FILES['foto1'];
     $foto2             = $_FILES['foto2'];
 
-//PARA CONHECIMENTO, CRIPTOGRAFIA DE classificacao
-//$classificacao = md5 ($_POST['classificacao']);
-
-    //criar pasta e mover arquivos img
     $diretorio = "fotos/";
 
     $extensao1 = strtolower(substr($_FILES['foto1']['name'], -4));
@@ -30,15 +25,35 @@ if (isset($_POST['gravar']))
     $novo_nome2 = md5(time().$extensao2);
     move_uploaded_file($_FILES['foto2']['tmp_name'], $diretorio.$novo_nome2);
 
-   $sql = mysql_query("INSERT INTO produto (codigo,descricao,codcategoria,codclassificacao,codmarca, cor,tamanho,preco,foto1,foto2,foto3)
-                values ('$codigo','$descricao','$codcategoria','$codclassificacao','$codmarca','$cor','$tamanho','$preco','$novo_nome1','$novo_nome2')");
-
-   $resultado = mysql_query($sql);
-
-   if ($resultado)
-        {echo " Falha ao gravar os dados informados";}
-   else
-        {echo " Dados informados cadastrados com sucesso";}
+    $sql = "INSERT INTO produto (
+      codigo, 
+      descricao, 
+      cor, 
+      tamanho, 
+      preco, 
+      codmarca, 
+      codcategoria, 
+      codtipo, 
+      foto1, 
+      foto2
+  ) VALUES (
+      '$codigo', 
+      '$descricao', 
+      '$cor', 
+      '$tamanho', 
+      '$preco', 
+      '$codmarca', 
+      '$codcategoria', 
+      '$codtipo', 
+      '$novo_nome1', 
+      '$novo_nome2'
+  )";
+   mysql_query($sql);
+   if (mysql_affected_rows() > 0) {
+       echo "<script>alert('Cadastro atualizado com sucesso!'); window.location='cadastro.html';</script>";
+   } else {
+       echo "<script>alert('Não foi possível atualizar o cadastro." . mysql_error() ."'); window.location='cadastro.html';</script>";
+   }
 }
 
 if (isset($_POST['excluir']))

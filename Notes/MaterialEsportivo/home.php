@@ -1,0 +1,402 @@
+<?php
+$connect = mysql_connect("localhost", "root", "");
+$banco = mysql_select_db("loja");
+
+if (!$connect || !$banco) {
+    die("Erro na conexão com o banco de dados: " . mysql_error());
+}
+
+$query = "SELECT * FROM produto"; 
+$result = mysql_query($query);
+
+// Array para armazenar os produtos
+$produtos = array();
+while ($row = mysql_fetch_assoc($result)) {
+    $produtos[] = $row;
+}
+?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SportStyle Pro - Loja de Artigos Esportivos</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-icons i {
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .header-icons i:hover {
+            color: #3498db;
+        }
+
+        /* Navigation */
+        .navbar {
+            background-color: #34495e;
+            padding: 10px 0;
+        }
+
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #3498db;
+        }
+
+        /* Category Tabs */
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            background-color: #ecf0f1;
+            padding: 15px 0;
+            margin-top: 20px;
+        }
+
+        .category-tab {
+            margin: 0 15px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #7f8c8d;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .category-tab.active {
+            color: #2c3e50;
+        }
+
+        .category-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #3498db;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .product-details {
+            padding: 15px;
+        }
+
+        .product-details h3 {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .product-price {
+            font-weight: bold;
+            color: #2ecc71;
+            font-size: 20px;
+        }
+
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .btn-buy, .btn-cart {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-buy {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-cart {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        .btn-buy:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-cart:hover {
+            background-color: #27ae60;
+        }
+
+        .product-discount {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #e74c3c;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        /* Search */
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .search-input {
+            width: 100%;
+            max-width: 600px;
+            padding: 10px;
+            border: 2px solid #3498db;
+            border-radius: 20px;
+            font-size: 16px;
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .filter-select {
+            padding: 10px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 30px 0;
+            margin-top: 30px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .footer-section {
+            flex: 1;
+            margin: 0 15px;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 15px;
+            color: #3498db;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">SportStyle Pro</div>
+            <div class="header-icons">
+                <i class="fas fa-search"></i>
+                <i class="fas fa-user"></i>
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+        </div>
+    </header>
+
+    <nav class="navbar">
+        <ul class="nav-menu container">
+            <li><a href="#">Início</a></li>
+            <li><a href="#">Masculino</a></li>
+            <li><a href="#">Feminino</a></li>
+            <li><a href="#">Infantil</a></li>
+            <li><a href="#">Marcas</a></li>
+            <li><a href="#">Promoções</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Pesquise por produtos, marcas...">
+        </div>
+
+        <div class="filter-container">
+            <select class="filter-select">
+                <option>Ordenar por</option>
+                <option>Menor Preço</option>
+                <option>Maior Preço</option>
+                <option>Mais Vendidos</option>
+            </select>
+            <select class="filter-select">
+                <option>Filtrar por Marca</option>
+                <option>Nike</option>
+                <option>Adidas</option>
+                <option>Under Armour</option>
+            </select>
+        </div>
+
+        <div class="category-tabs">
+            <div class="category-tab active" data-category="masculino">Masculino</div>
+            <div class="category-tab" data-category="feminino">Feminino</div>
+            <div class="category-tab" data-category="infantil">Infantil</div>
+        </div>
+
+        <div class="product-grid">
+            <?php foreach ($produtos as $produto): ?>
+                <div class="product-card">
+                    <img src="fotos/<?php echo $produto['foto1']?>">
+                    <div class="product-details">
+                        <h3><?php echo htmlspecialchars($produto['descricao']); ?></h3>
+                        <p class="product-price">R$ <?php echo number_format($produto['preco'], 2, ',', '.'); ?></p>
+                        <div class="product-actions">
+                            <button class="btn-buy">Comprar</button>
+                            <button class="btn-cart">Carrinho</button>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h4>Institucional</h4>
+                <div class="footer-links">
+                    <a href="#">Sobre Nós</a>
+                    <a href="#">Política de Privacidade</a>
+                    <a href="#">Termos de Uso</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Atendimento</h4>
+                <div class="footer-links">
+                    <a href="#">Fale Conosco</a>
+                    <a href="#">Central de Ajuda</a>
+                    <a href="#">Trocas e Devoluções</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Redes Sociais</h4>
+                <div class="footer-links">
+                    <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+                    <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                    <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tab Switching
+        const categoryTabs = document.querySelectorAll('.category-tab');
+        categoryTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                categoryTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                // Aqui você pode adicionar filtragem por categoria
+                const category = tab.dataset.category;
+                // Implemente a lógica para filtrar produtos por categoria
+            });
+        });
+
+        // Search Functionality
+        const searchInput = document.querySelector('.search-input');
+        const productCards = document.querySelectorAll('.product-card');
+
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            productCards.forEach(card => {
+                const productName = card.querySelector('h3').textContent.toLowerCase();
+                card.style.display = productName.includes(searchTerm) ? 'block' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>
