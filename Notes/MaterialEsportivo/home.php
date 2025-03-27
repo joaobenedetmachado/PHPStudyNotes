@@ -6,12 +6,20 @@ if (!$connect || !$banco) {
     die("Erro na conexão com o banco de dados: " . mysql_error());
 }
 
-$query = "SELECT * FROM produto"; 
-$result = mysql_query($query);
+$queryproduto = "SELECT * FROM produto"; 
+$result = mysql_query($queryproduto);
 
 $produtos = array();
 while ($row = mysql_fetch_assoc($result)) {
     $produtos[] = $row;
+}
+
+$querymarca = "SELECT * FROM marca"; 
+$resultmarca = mysql_query($querymarca);
+
+$marcas = array();
+while ($row = mysql_fetch_assoc($resultmarca)) {
+    $marcas[] = $row;
 }
 ?>
 <!DOCTYPE html>
@@ -77,7 +85,6 @@ while ($row = mysql_fetch_assoc($result)) {
             color: #3498db;
         }
 
-        /* Navigation */
         .navbar {
             background-color: #34495e;
             padding: 10px 0;
@@ -101,7 +108,6 @@ while ($row = mysql_fetch_assoc($result)) {
             color: #3498db;
         }
 
-        /* Category Tabs */
         .category-tabs {
             display: flex;
             justify-content: center;
@@ -133,7 +139,6 @@ while ($row = mysql_fetch_assoc($result)) {
             background-color: #3498db;
         }
 
-        /* Product Grid */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -217,7 +222,6 @@ while ($row = mysql_fetch_assoc($result)) {
             border-radius: 3px;
         }
 
-        /* Search */
         .search-container {
             display: flex;
             justify-content: center;
@@ -246,7 +250,6 @@ while ($row = mysql_fetch_assoc($result)) {
             border-radius: 5px;
         }
 
-        /* Footer */
         footer {
             background-color: #2c3e50;
             color: white;
@@ -283,7 +286,7 @@ while ($row = mysql_fetch_assoc($result)) {
             <div class="logo">SportStyle Pro</div>
             <div class="header-icons">
                 <i class="fas fa-search"></i>
-                <i class="fas fa-user"></i>
+                <a href="./cadastro.html"><i class="fas fa-user"></i></a>
                 <i class="fas fa-shopping-cart"></i>
             </div>
         </div>
@@ -310,13 +313,13 @@ while ($row = mysql_fetch_assoc($result)) {
                 <option>Ordenar por</option>
                 <option>Menor Preço</option>
                 <option>Maior Preço</option>
-                <option>Mais Vendidos</option>
             </select>
             <select class="filter-select">
                 <option>Filtrar por Marca</option>
-                <option>Nike</option>
-                <option>Adidas</option>
-                <option>Under Armour</option>
+                <?php foreach ($marcas as $marca): ?>
+        <option><?php echo $marca['nome']; ?></option>
+    <?php endforeach; ?>
+                
             </select>
         </div>
 
