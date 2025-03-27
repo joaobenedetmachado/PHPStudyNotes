@@ -9,7 +9,6 @@ if (!$connect || !$banco) {
 $query = "SELECT * FROM produto"; 
 $result = mysql_query($query);
 
-// Array para armazenar os produtos
 $produtos = array();
 while ($row = mysql_fetch_assoc($result)) {
     $produtos[] = $row;
