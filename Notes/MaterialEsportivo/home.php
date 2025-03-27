@@ -21,6 +21,14 @@ $marcas = array();
 while ($row = mysql_fetch_assoc($resultmarca)) {
     $marcas[] = $row;
 }
+
+$querycategoria = "SELECT * FROM categoria"; 
+$resultcategoria = mysql_query($querycategoria);
+
+$categorias = array();
+while ($row = mysql_fetch_assoc($resultcategoria)) {
+    $categorias[] = $row;
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -292,16 +300,6 @@ while ($row = mysql_fetch_assoc($resultmarca)) {
         </div>
     </header>
 
-    <nav class="navbar">
-        <ul class="nav-menu container">
-            <li><a href="#">Início</a></li>
-            <li><a href="#">Masculino</a></li>
-            <li><a href="#">Feminino</a></li>
-            <li><a href="#">Infantil</a></li>
-            <li><a href="#">Marcas</a></li>
-            <li><a href="#">Promoções</a></li>
-        </ul>
-    </nav>
 
     <div class="container">
         <div class="search-container">
@@ -324,9 +322,9 @@ while ($row = mysql_fetch_assoc($resultmarca)) {
         </div>
 
         <div class="category-tabs">
-            <div class="category-tab active" data-category="masculino">Masculino</div>
-            <div class="category-tab" data-category="feminino">Feminino</div>
-            <div class="category-tab" data-category="infantil">Infantil</div>
+            <?php foreach ($categorias as $categoria): ?>
+        <div class="category-tab" data-category="infantil" data-category="<?php echo $categoria['nome']; ?>"><?php echo $categoria['nome']; ?></div>
+    <?php endforeach; ?>
         </div>
 
         <div class="product-grid">
