@@ -2,12 +2,25 @@
 $connect = mysql_connect("localhost", "root", "");
 $banco = mysql_select_db("loja");
 
-if (!$connect || !$banco) {
-    die("Erro na conexão com o banco de dados: " . mysql_error());
+// Verifica se há uma categoria selecionada via GET, senão usa "Masculino" como padrão
+$categoriaAtual = isset($_GET['categoria']) ? mysql_real_escape_string($_GET['categoria']) : "Masculino";
+
+if (!$connect) {
+    die("Erro na conexão com o MySQL: " . mysql_error());
 }
 
-$queryproduto = "SELECT * FROM produto"; 
+if (!$banco) {
+    die("Erro ao selecionar o banco de dados: " . mysql_error());
+}
+$queryproduto = "SELECT p.* FROM produto p
+                 JOIN categoria c ON p.codcategoria = c.codigo
+                 WHERE c.nome = '$categoriaAtual'";
+
 $result = mysql_query($queryproduto);
+
+if (!$result) {
+    die("Erro na consulta de produtos: " . mysql_error());
+}
 
 $produtos = array();
 while ($row = mysql_fetch_assoc($result)) {
@@ -17,6 +30,10 @@ while ($row = mysql_fetch_assoc($result)) {
 $querymarca = "SELECT * FROM marca"; 
 $resultmarca = mysql_query($querymarca);
 
+if (!$resultmarca) {
+    die("Erro na consulta de marcas: " . mysql_error());
+}
+
 $marcas = array();
 while ($row = mysql_fetch_assoc($resultmarca)) {
     $marcas[] = $row;
@@ -24,6 +41,10 @@ while ($row = mysql_fetch_assoc($resultmarca)) {
 
 $querycategoria = "SELECT * FROM categoria"; 
 $resultcategoria = mysql_query($querycategoria);
+
+if (!$resultcategoria) {
+    die("Erro na consulta de categorias: " . mysql_error());
+}
 
 $categorias = array();
 while ($row = mysql_fetch_assoc($resultcategoria)) {
@@ -315,22 +336,24 @@ while ($row = mysql_fetch_assoc($resultcategoria)) {
             <select class="filter-select">
                 <option>Filtrar por Marca</option>
                 <?php foreach ($marcas as $marca): ?>
-        <option><?php echo $marca['nome']; ?></option>
-    <?php endforeach; ?>
-                
+                    <option><?php echo $marca['nome']; ?></option>
+                <?php endforeach; ?>
             </select>
         </div>
 
         <div class="category-tabs">
             <?php foreach ($categorias as $categoria): ?>
-        <div class="category-tab" data-category="infantil" data-category="<?php echo $categoria['nome']; ?>"><?php echo $categoria['nome']; ?></div>
-    <?php endforeach; ?>
+                <a href="?categoria=<?php echo urlencode($categoria['nome']); ?>" 
+                   class="category-tab <?php echo ($categoria['nome'] == $categoriaAtual) ? 'active' : ''; ?>">
+                    <?php echo $categoria['nome']; ?>
+                </a>
+            <?php endforeach; ?>
         </div>
 
         <div class="product-grid">
             <?php foreach ($produtos as $produto): ?>
                 <div class="product-card">
-                    <img src="fotos/<?php echo $produto['foto1']?>">
+                    <img src="fotos/<?php echo $produto['foto1']; ?>">
                     <div class="product-details">
                         <h3><?php echo htmlspecialchars($produto['descricao']); ?></h3>
                         <p class="product-price">R$ <?php echo number_format($produto['preco'], 2, ',', '.'); ?></p>
@@ -374,19 +397,7 @@ while ($row = mysql_fetch_assoc($resultcategoria)) {
     </footer>
 
     <script>
-        // Tab Switching
-        const categoryTabs = document.querySelectorAll('.category-tab');
-        categoryTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                categoryTabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                // Aqui você pode adicionar filtragem por categoria
-                const category = tab.dataset.category;
-                // Implemente a lógica para filtrar produtos por categoria
-            });
-        });
-
-        // Search Functionality
+        // Filtro de busca simples (client-side)
         const searchInput = document.querySelector('.search-input');
         const productCards = document.querySelectorAll('.product-card');
 
