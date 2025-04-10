@@ -2,8 +2,9 @@
 $connect = mysql_connect("localhost", "root", "");
 $banco = mysql_select_db("loja");
 
-// Verifica se há uma categoria selecionada via GET, senão usa "Masculino" como padrão
+// Obtenção dos parâmetros da URL com valores padrão
 $categoriaAtual = isset($_GET['categoria']) ? mysql_real_escape_string($_GET['categoria']) : "Masculino";
+$marcaAtual = isset($_GET['marca']) ? mysql_real_escape_string($_GET['marca']) : "";
 
 if (!$connect) {
     die("Erro na conexão com o MySQL: " . mysql_error());
@@ -12,9 +13,19 @@ if (!$connect) {
 if (!$banco) {
     die("Erro ao selecionar o banco de dados: " . mysql_error());
 }
+
+// Consulta de produtos com filtro combinado (categoria e marca)
 $queryproduto = "SELECT p.* FROM produto p
-                 JOIN categoria c ON p.codcategoria = c.codigo
-                 WHERE c.nome = '$categoriaAtual'";
+                 JOIN categoria c ON p.codcategoria = c.codigo";
+
+// Se uma marca foi selecionada, adicionamos o filtro de marca
+if (!empty($marcaAtual)) {
+    $queryproduto .= " JOIN marca m ON p.codmarca = m.codigo
+                       WHERE c.nome = '$categoriaAtual' AND m.nome = '$marcaAtual'";
+} else {
+    // Caso contrário, filtramos apenas por categoria
+    $queryproduto .= " WHERE c.nome = '$categoriaAtual'";
+}
 
 $result = mysql_query($queryproduto);
 
@@ -27,6 +38,7 @@ while ($row = mysql_fetch_assoc($result)) {
     $produtos[] = $row;
 }
 
+// Consulta de marcas
 $querymarca = "SELECT * FROM marca"; 
 $resultmarca = mysql_query($querymarca);
 
@@ -39,6 +51,7 @@ while ($row = mysql_fetch_assoc($resultmarca)) {
     $marcas[] = $row;
 }
 
+// Consulta de categorias
 $querycategoria = "SELECT * FROM categoria"; 
 $resultcategoria = mysql_query($querycategoria);
 
@@ -152,6 +165,7 @@ while ($row = mysql_fetch_assoc($resultcategoria)) {
             color: #7f8c8d;
             position: relative;
             padding-bottom: 10px;
+            text-decoration: none;
         }
 
         .category-tab.active {
@@ -166,6 +180,37 @@ while ($row = mysql_fetch_assoc($resultcategoria)) {
             width: 100%;
             height: 3px;
             background-color: #3498db;
+        }
+
+        .brand-tabs {
+            display: flex;
+            justify-content: center;
+            background-color: #f5f6fa;
+            padding: 15px 0;
+        }
+
+        .brand-tab {
+            margin: 0 15px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #7f8c8d;
+            position: relative;
+            padding-bottom: 10px;
+            text-decoration: none;
+        }
+
+        .brand-tab.active {
+            color: #2c3e50;
+        }
+
+        .brand-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #e74c3c;
         }
 
         .product-grid {
@@ -273,10 +318,27 @@ while ($row = mysql_fetch_assoc($resultcategoria)) {
             margin-bottom: 20px;
         }
 
-        .filter-select {
-            padding: 10px;
-            border: 1px solid #bdc3c7;
+        .filter-btn {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
             border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .filter-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .clear-filters {
+            color: #e74c3c;
+            text-decoration: none;
+            font-weight: bold;
+            margin-left: 20px;
+            display: inline-block;
+            padding: 10px;
         }
 
         footer {
@@ -321,49 +383,54 @@ while ($row = mysql_fetch_assoc($resultcategoria)) {
         </div>
     </header>
 
-
     <div class="container">
         <div class="search-container">
             <input type="text" class="search-input" placeholder="Pesquise por produtos, marcas...">
         </div>
 
-        <div class="filter-container">
-            <select class="filter-select">
-                <option>Ordenar por</option>
-                <option>Menor Preço</option>
-                <option>Maior Preço</option>
-            </select>
-            <select class="filter-select">
-                <option>Filtrar por Marca</option>
-                <?php foreach ($marcas as $marca): ?>
-                    <option><?php echo $marca['nome']; ?></option>
-                <?php endforeach; ?>
-            </select>
-        </div>
-
         <div class="category-tabs">
             <?php foreach ($categorias as $categoria): ?>
-                <a href="?categoria=<?php echo urlencode($categoria['nome']); ?>" 
+                <a href="?categoria=<?php echo urlencode($categoria['nome']); ?><?php echo !empty($marcaAtual) ? '&marca='.urlencode($marcaAtual) : ''; ?>" 
                    class="category-tab <?php echo ($categoria['nome'] == $categoriaAtual) ? 'active' : ''; ?>">
                     <?php echo $categoria['nome']; ?>
                 </a>
             <?php endforeach; ?>
         </div>
 
+        <div class="brand-tabs">
+            <a href="?categoria=<?php echo urlencode($categoriaAtual); ?>" 
+               class="brand-tab <?php echo (empty($marcaAtual)) ? 'active' : ''; ?>">
+                Todas as Marcas
+            </a>
+            <?php foreach ($marcas as $marca): ?>
+                <a href="?categoria=<?php echo urlencode($categoriaAtual); ?>&marca=<?php echo urlencode($marca['nome']); ?>" 
+                   class="brand-tab <?php echo ($marca['nome'] == $marcaAtual) ? 'active' : ''; ?>">
+                    <?php echo $marca['nome']; ?>
+                </a>
+            <?php endforeach; ?>
+        </div>
+
         <div class="product-grid">
-            <?php foreach ($produtos as $produto): ?>
-                <div class="product-card">
-                    <img src="fotos/<?php echo $produto['foto1']; ?>">
-                    <div class="product-details">
-                        <h3><?php echo htmlspecialchars($produto['descricao']); ?></h3>
-                        <p class="product-price">R$ <?php echo number_format($produto['preco'], 2, ',', '.'); ?></p>
-                        <div class="product-actions">
-                            <button class="btn-buy">Comprar</button>
-                            <button class="btn-cart">Carrinho</button>
+            <?php if (count($produtos) > 0): ?>
+                <?php foreach ($produtos as $produto): ?>
+                    <div class="product-card">
+                        <img src="fotos/<?php echo $produto['foto1']; ?>" alt="<?php echo htmlspecialchars($produto['descricao']); ?>">
+                        <div class="product-details">
+                            <h3><?php echo htmlspecialchars($produto['descricao']); ?></h3>
+                            <p class="product-price">R$ <?php echo number_format($produto['preco'], 2, ',', '.'); ?></p>
+                            <div class="product-actions">
+                                <button class="btn-buy">Comprar</button>
+                                <button class="btn-cart">Carrinho</button>
+                            </div>
                         </div>
                     </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div style="grid-column: 1 / -1; text-align: center; padding: 50px;">
+                    <h3>Nenhum produto encontrado para esta combinação de filtros</h3>
+                    <a href="?categoria=<?php echo urlencode($categoriaAtual); ?>" class="clear-filters">Limpar filtro de marca</a>
                 </div>
-            <?php endforeach; ?>
+            <?php endif; ?>
         </div>
     </div>
 
