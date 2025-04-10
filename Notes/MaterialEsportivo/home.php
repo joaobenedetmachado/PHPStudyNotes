@@ -1,10 +1,13 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['usuario_id'])) {
+    header("Location: login.html");
+    exit();
+}
+
 $connect = mysql_connect("localhost", "root", "");
 $banco = mysql_select_db("loja");
-
-// Obtenção dos parâmetros da URL com valores padrão
-$categoriaAtual = isset($_GET['categoria']) ? mysql_real_escape_string($_GET['categoria']) : "Masculino";
-$marcaAtual = isset($_GET['marca']) ? mysql_real_escape_string($_GET['marca']) : "";
 
 if (!$connect) {
     die("Erro na conexão com o MySQL: " . mysql_error());
@@ -14,16 +17,16 @@ if (!$banco) {
     die("Erro ao selecionar o banco de dados: " . mysql_error());
 }
 
-// Consulta de produtos com filtro combinado (categoria e marca)
-$queryproduto = "SELECT p.* FROM produto p
-                 JOIN categoria c ON p.codcategoria = c.codigo";
+$categoriaAtual = isset($_GET['categoria']) ? mysql_real_escape_string($_GET['categoria']) : "Masculino";
+$marcaAtual = isset($_GET['marca']) ? mysql_real_escape_string($_GET['marca']) : "";
 
-// Se uma marca foi selecionada, adicionamos o filtro de marca
+$queryproduto = "SELECT p.* FROM produto p
+                JOIN categoria c ON p.codcategoria = c.codigo";
+
 if (!empty($marcaAtual)) {
     $queryproduto .= " JOIN marca m ON p.codmarca = m.codigo
-                       WHERE c.nome = '$categoriaAtual' AND m.nome = '$marcaAtual'";
+                      WHERE c.nome = '$categoriaAtual' AND m.nome = '$marcaAtual'";
 } else {
-    // Caso contrário, filtramos apenas por categoria
     $queryproduto .= " WHERE c.nome = '$categoriaAtual'";
 }
 
@@ -38,7 +41,6 @@ while ($row = mysql_fetch_assoc($result)) {
     $produtos[] = $row;
 }
 
-// Consulta de marcas
 $querymarca = "SELECT * FROM marca"; 
 $resultmarca = mysql_query($querymarca);
 
@@ -51,7 +53,6 @@ while ($row = mysql_fetch_assoc($resultmarca)) {
     $marcas[] = $row;
 }
 
-// Consulta de categorias
 $querycategoria = "SELECT * FROM categoria"; 
 $resultcategoria = mysql_query($querycategoria);
 
@@ -464,7 +465,6 @@ while ($row = mysql_fetch_assoc($resultcategoria)) {
     </footer>
 
     <script>
-        // Filtro de busca simples (client-side)
         const searchInput = document.querySelector('.search-input');
         const productCards = document.querySelectorAll('.product-card');
 
