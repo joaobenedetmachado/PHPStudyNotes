@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tempo de Geração: 10/04/2025 às 22h06min
+-- Tempo de Geração: 24/04/2025 às 21h02min
 -- Versão do Servidor: 5.5.20
 -- Versão do PHP: 5.3.9
 
@@ -140,6 +140,18 @@ CREATE TABLE IF NOT EXISTS `usuario` (
 
 INSERT INTO `usuario` (`id`, `email`, `senha`, `tipo`) VALUES
 (1, 'jvbm2177@gmail.com', '123123', 'admin');
+
+--
+-- Estrutura da tabela `carrinho`
+--
+
+CREATE TABLE IF NOT EXISTS `carrinho` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `id_produto` INT NOT NULL,
+  `id_usuario` INT NOT NULL,
+  FOREIGN KEY (`id_produto`) REFERENCES `produto`(`codigo`),
+  FOREIGN KEY (`id_usuario`) REFERENCES `usuario`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Restrições para as tabelas dumpadas

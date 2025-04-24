@@ -370,6 +370,126 @@ while ($row = mysql_fetch_assoc($resultcategoria)) {
             display: block;
             margin-bottom: 10px;
         }
+
+        /* Cart Modal Styles */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 400px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            color: #2ecc71;
+            font-weight: bold;
+        }
+
+        .remove-item {
+            color: #e74c3c;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .cart-total {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .close-cart {
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        .cart-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+
+        /* Pop-up notification styles */
+        .popup-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #2ecc71;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: none;
+            animation: slideIn 0.5s ease-out;
+            z-index: 1001;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -379,7 +499,9 @@ while ($row = mysql_fetch_assoc($resultcategoria)) {
             <div class="header-icons">
                 <i class="fas fa-search"></i>
                 <a href="./cadastro.html"><i class="fas fa-user"></i></a>
-                <i class="fas fa-shopping-cart"></i>
+                <a href="#" id="cart-icon" class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </a>
             </div>
         </div>
     </header>
@@ -464,6 +586,24 @@ while ($row = mysql_fetch_assoc($resultcategoria)) {
         </div>
     </footer>
 
+    <div class="cart-overlay"></div>
+    <div class="cart-modal">
+        <div class="cart-header">
+            <h3>Seu Carrinho</h3>
+            <span class="close-cart">&times;</span>
+        </div>
+        <div class="cart-items">
+        </div>
+        <div class="cart-total">
+            Total: R$ <span class="total-value">0,00</span>
+        </div>
+    </div>
+
+    <!-- Pop-up notification -->
+    <div class="popup-notification">
+        Produto adicionado ao carrinho!
+    </div>
+
     <script>
         const searchInput = document.querySelector('.search-input');
         const productCards = document.querySelectorAll('.product-card');
@@ -473,6 +613,194 @@ while ($row = mysql_fetch_assoc($resultcategoria)) {
             productCards.forEach(card => {
                 const productName = card.querySelector('h3').textContent.toLowerCase();
                 card.style.display = productName.includes(searchTerm) ? 'block' : 'none';
+            });
+        });
+
+        const cartIcon = document.getElementById('cart-icon');
+        const cartModal = document.querySelector('.cart-modal');
+        const cartOverlay = document.querySelector('.cart-overlay');
+        const closeCart = document.querySelector('.close-cart');
+        const cartItems = document.querySelector('.cart-items');
+        const totalValue = document.querySelector('.total-value');
+        const popupNotification = document.querySelector('.popup-notification');
+
+        function showPopup() {
+            popupNotification.style.display = 'block';
+            setTimeout(() => {
+                popupNotification.style.animation = 'slideOut 0.5s ease-out';
+                setTimeout(() => {
+                    popupNotification.style.display = 'none';
+                    popupNotification.style.animation = 'slideIn 0.5s ease-out';
+                }, 500);
+            }, 2000);
+        }
+
+        function openCart() {
+            console.log('Opening cart...');
+            cartModal.style.display = 'block';
+            cartOverlay.style.display = 'block';
+            loadCartItems();
+        }
+
+        function closeCartModal() {
+            console.log('Closing cart...');
+            cartModal.style.display = 'none';
+            cartOverlay.style.display = 'none';
+        }
+
+        if (cartIcon) {
+            console.log('Cart icon found');
+            cartIcon.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Cart icon clicked');
+                openCart();
+            });
+        } else {
+            console.error('Cart icon not found');
+        }
+
+        closeCart.addEventListener('click', closeCartModal);
+        cartOverlay.addEventListener('click', closeCartModal);
+
+        function addToCart(productId) {
+            console.log('Adding product to cart:', productId);
+            fetch('carrinho.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `acao=adicionar&id_produto=${productId}`
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Cart response:', data);
+                if (data.success) {
+                    showPopup();
+                    loadCartItems();
+                } else {
+                    alert('Erro ao adicionar produto ao carrinho: ' + (data.error || 'Erro desconhecido'));
+                }
+            })
+            .catch(error => {
+                console.error('Error adding to cart:', error);
+                alert('Erro ao adicionar produto ao carrinho');
+            });
+        }
+
+        function removeFromCart(productId) {
+            console.log('Removing product from cart:', productId);
+            fetch('carrinho.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `acao=remover&id_produto=${productId}`
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Remove response:', data);
+                if (data.success) {
+                    loadCartItems();
+                } else {
+                    alert('Erro ao remover produto do carrinho: ' + (data.error || 'Erro desconhecido'));
+                }
+            })
+            .catch(error => {
+                console.error('Error removing from cart:', error);
+                alert('Erro ao remover produto do carrinho');
+            });
+        }
+
+        function loadCartItems() {
+            console.log('Loading cart items');
+            fetch('carrinho.php?acao=listar')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    const contentType = response.headers.get('content-type');
+                    if (!contentType || !contentType.includes('application/json')) {
+                        console.error('Response content type:', contentType);
+                        throw new TypeError("Oops, we haven't got JSON!");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Cart items:', data);
+                    let total = 0;
+                    cartItems.innerHTML = '';
+                    
+                    if (!data.success) {
+                        console.error('Error from server:', data.error);
+                        cartItems.innerHTML = '<p>Erro ao carregar carrinho: ' + (data.error || 'Erro desconhecido') + '</p>';
+                        return;
+                    }
+
+                    if (!data.produtos || data.produtos.length === 0) {
+                        cartItems.innerHTML = '<p>Carrinho vazio</p>';
+                        totalValue.textContent = '0,00';
+                        return;
+                    }
+
+                    data.produtos.forEach(produto => {
+                        total += parseFloat(produto.preco);
+                        const item = document.createElement('div');
+                        item.className = 'cart-item';
+                        item.innerHTML = `
+                            <img src="fotos/${produto.foto1}" alt="${produto.descricao}">
+                            <div class="cart-item-details">
+                                <div class="cart-item-title">${produto.descricao}</div>
+                                <div class="cart-item-price">R$ ${parseFloat(produto.preco).toFixed(2)}</div>
+                            </div>
+                            <span class="remove-item" onclick="removeFromCart(${produto.codigo})">&times;</span>
+                        `;
+                        cartItems.appendChild(item);
+                    });
+
+                    totalValue.textContent = total.toFixed(2);
+                })
+                .catch(error => {
+                    console.error('Error loading cart items:', error);
+                    cartItems.innerHTML = '<p>Erro ao carregar carrinho. Por favor, tente novamente.</p>';
+                    totalValue.textContent = '0,00';
+                });
+        }
+
+        <?php
+        echo "const productIds = [";
+        foreach ($produtos as $produto) {
+            echo $produto['codigo'] . ",";
+        }
+        echo "];\n";
+        ?>
+
+        document.querySelectorAll('.product-card').forEach((card, index) => {
+            if (productIds[index]) {
+                card.dataset.productId = productIds[index];
+                console.log('Added product ID to card:', productIds[index]);
+            }
+        });
+
+        document.querySelectorAll('.btn-cart').forEach((button, index) => {
+            button.addEventListener('click', function() {
+                const productCard = this.closest('.product-card');
+                const productId = productCard.dataset.productId;
+                if (productId) {
+                    console.log('Cart button clicked for product:', productId);
+                    addToCart(productId);
+                } else {
+                    console.error('No product ID found for this card');
+                }
             });
         });
     </script>
