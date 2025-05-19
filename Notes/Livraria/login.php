@@ -1,12 +1,10 @@
 <?php
 require_once 'header.php';
 
-// Verificar se o usuário já está logado
 if (isLoggedIn()) {
     redirect('index.php');
 }
 
-// Processar o login
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = isset($_POST['email']) ? sanitize($_POST['email']) : '';
     $senha = isset($_POST['senha']) ? $_POST['senha'] : '';
@@ -14,16 +12,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($email) || empty($senha)) {
         $_SESSION['error'] = "Preencha todos os campos.";
     } else {
-        // Verificar as credenciais
         $sql = "SELECT id, nome, senha, admin FROM usuarios WHERE email = '$email'";
         $result = mysqli_query($conn, $sql);
         
         if (mysqli_num_rows($result) === 1) {
             $usuario = mysqli_fetch_assoc($result);
             
-            // Verificar senha (usando MD5 para compatibilidade com PHP 5.3)
             if (md5($senha) === $usuario['senha']) {
-                // Login bem-sucedido
                 $_SESSION['user_id'] = $usuario['id'];
                 $_SESSION['user_name'] = $usuario['nome'];
                 $_SESSION['is_admin'] = $usuario['admin'];

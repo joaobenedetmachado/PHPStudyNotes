@@ -1,19 +1,16 @@
 <?php
 require_once 'header.php';
 
-// Verificar se o usuário já está logado
 if (isLoggedIn()) {
     redirect('index.php');
 }
 
-// Processar o registro
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome = isset($_POST['nome']) ? sanitize($_POST['nome']) : '';
     $email = isset($_POST['email']) ? sanitize($_POST['email']) : '';
     $senha = isset($_POST['senha']) ? $_POST['senha'] : '';
     $confirmar_senha = isset($_POST['confirmar_senha']) ? $_POST['confirmar_senha'] : '';
     
-    // Validações
     $errors = array();
     
     if (empty($nome)) {
@@ -36,7 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "As senhas não coincidem.";
     }
     
-    // Verificar se o email já está cadastrado
     $sql = "SELECT id FROM usuarios WHERE email = '$email'";
     $result = mysqli_query($conn, $sql);
     
@@ -44,7 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "Este email já está cadastrado.";
     }
     
-    // Se não houver erros, cadastrar o usuário
     if (empty($errors)) {
         $senha_hash = md5($senha);
         
@@ -58,7 +53,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
     
-    // Se houver erros, exibi-los
     if (!empty($errors)) {
         $_SESSION['error'] = implode("<br>", $errors);
     }
