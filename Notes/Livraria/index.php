@@ -1,13 +1,11 @@
 <?php
 require_once 'header.php';
 
-// Buscar livros com filtro se aplicável
 $filtro = isset($_GET['filtro']) ? $_GET['filtro'] : '';
 $busca = isset($_GET['busca']) ? $_GET['busca'] : '';
 $livros = getLivros($filtro, $busca);
 ?>
 
-<!-- Banner/Slider -->
 <div class="bg-blue-700 text-white py-12 px-4 mb-8 rounded-lg">
     <div class="container mx-auto text-center">
         <h1 class="text-4xl font-bold mb-4">Bem-vindo à Livraria Online</h1>
@@ -18,7 +16,7 @@ $livros = getLivros($filtro, $busca);
     </div>
 </div>
 
-<!-- Categorias em destaque -->
+
 <div class="mb-8">
     <h2 class="text-2xl font-bold mb-4">Categorias</h2>
     <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
@@ -36,7 +34,7 @@ $livros = getLivros($filtro, $busca);
     </div>
 </div>
 
-<!-- Livros -->
+<!-- Livros cadastrados e tals -->
 <div id="livros" class="mb-8">
     <div class="flex justify-between items-center mb-4">
         <h2 class="text-2xl font-bold">Nossos Livros</h2>
@@ -58,7 +56,7 @@ $livros = getLivros($filtro, $busca);
                                  class="h-full object-cover">
                         <?php else: ?>
                             <div class="text-gray-400 text-center">
-                                <i class="fas fa-book text-4xl mb-2"></i>
+                                <img class="text-4xl mb-2" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAA5klEQVR4nL3UMQrCMBTG8T84CR0cnMRJb6CLiO52ETyAp/IErs7i6KAgeAhB20kQ0ckxUugQ0tgkjekHgdIX8iMv8KCmNIAl0A0FzAAB3IBeCKAJHEMjixxQkRHwlmqmlQKxDrgoG32QRAf82tjP60Pg6YBYAcIDsQaEpl0vpT4GJj6AMCDZ4VNfQDi2qxIgHBBr4F7hTayBXT6nNtK/hyViBK5AWxolZ+AEtIC9RbtKgQ8wUOrZpO3k3xFwMNykFFhjTiQhiQYxtsh1JQpSSPpnpJC4DsQnkfQmW6+TKEdWwDwUUH++pkQAD9BJySkAAAAASUVORK5CYII=" alt="no-image">
                                 <p>Imagem não disponível</p>
                             </div>
                         <?php endif; ?>
