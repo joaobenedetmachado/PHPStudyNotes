@@ -10,6 +10,20 @@ require_once 'functions.php';
     <title>Livraria Online</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <style>
+        .swiper-container {
+            overflow: hidden;
+        }
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: #1d4ed8 !important;
+        }
+        .swiper-pagination-bullet-active {
+            background: #1d4ed8 !important;
+        }
+    </style>
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col">
     <header class="bg-blue-800 text-white shadow-md">
@@ -81,3 +95,26 @@ require_once 'functions.php';
                 ?>
             </div>
         <?php endif; ?> 
+    </main>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            new Swiper('.swiper-container', {
+                loop: true,
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+            });
+        });
+    </script>
+</body>
+</html> 

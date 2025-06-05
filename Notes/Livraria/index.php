@@ -16,6 +16,23 @@ $livros = getLivros($filtro, $busca);
     </div>
 </div>
 
+<!-- Slider Section -->
+<div class="swiper-container mb-8">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">
+            <img src="assets/images/slider/book1.png" alt="Livros em destaque" class="w-full h-[400px] object-cover rounded-lg">
+        </div>
+        <div class="swiper-slide">
+            <img src="assets/images/slider/book2.png" alt="Biblioteca moderna" class="w-full h-[400px] object-cover rounded-lg">
+        </div>
+        <div class="swiper-slide">
+            <img src="assets/images/slider/book3.png" alt="Leitura" class="w-full h-[400px] object-cover rounded-lg">
+        </div>
+    </div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+</div>
 
 <div class="mb-8">
     <h2 class="text-2xl font-bold mb-4">Categorias</h2>
