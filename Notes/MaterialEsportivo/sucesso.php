@@ -2,10 +2,6 @@
 session_start();
 require_once('stripe-php/init.php');
 
-// Configurar a chave secreta da Stripe
-$stripe_secret_key = 'sk_test_51QlexyFZ60R1TyV82hYpovkknsd5bJdXumoXMriE1h5mgxpCbh0AqQbtkKmzmxkXL0OgZK4CgG2ZoS9HWhqRq4WT00kszZK83B';
-\Stripe\Stripe::setApiKey($stripe_secret_key);
-
 $session_id = $_GET['session_id'] ?? '';
 
 // Verificar se o ID da sessão foi fornecido
