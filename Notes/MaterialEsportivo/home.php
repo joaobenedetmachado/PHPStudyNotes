@@ -597,6 +597,7 @@ while ($row = mysql_fetch_assoc($resultcategoria)) {
         <div class="cart-total">
             Total: R$ <span class="total-value">0,00</span>
         </div>
+        <button id="checkout-button" class="btn-buy" style="width: 100%; margin-top: 15px; padding: 12px 0;">Finalizar Compra</button>
     </div>
 
     <!-- Pop-up notification -->
@@ -604,7 +605,9 @@ while ($row = mysql_fetch_assoc($resultcategoria)) {
         Produto adicionado ao carrinho!
     </div>
 
+    <script src="https://js.stripe.com/v3/"></script>
     <script>
+        const stripe = Stripe('pk_test_51NzQwqSDn30SRrLFYgAVlLcPnWQb7NN2mywhJHyb1CRXvQhW0rHJxbwF51jSbTd51HDuULHBUh2KRK5iqZZsj0sZ00DlLcJgxc');
         const searchInput = document.querySelector('.search-input');
         const productCards = document.querySelectorAll('.product-card');
 
@@ -801,6 +804,39 @@ while ($row = mysql_fetch_assoc($resultcategoria)) {
                 } else {
                     console.error('No product ID found for this card');
                 }
+            });
+        });
+
+        document.getElementById('checkout-button').addEventListener('click', function() {
+            if (document.querySelector('.cart-items').children.length === 0 || 
+                document.querySelector('.cart-items').innerHTML.includes('Carrinho vazio')) {
+                alert('Seu carrinho está vazio!');
+                return;
+            }
+            
+            fetch('carrinho.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'acao=pagar'
+            })
+            .then(response => response.json())
+            .then(session => {
+                if (session.success === false) {
+                    alert('Erro: ' + session.error);
+                    return;
+                }
+                return stripe.redirectToCheckout({ sessionId: session.id });
+            })
+            .then(result => {
+                if (result && result.error) {
+                    alert(result.error.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Ocorreu um erro ao processar o pagamento. Tente novamente.');
             });
         });
     </script>
