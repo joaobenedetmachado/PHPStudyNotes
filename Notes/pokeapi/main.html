@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokedex</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="pokedex">
+        <div class="pokedex-top">
+            <div class="pokedex-button big-blue"></div>
+            <div class="pokedex-button small-red"></div>
+            <div class="pokedex-button small-yellow"></div>
+            <div class="pokedex-button small-green"></div>
+        </div>
+
+        <div class="pokedex-screen-container">
+            <div class="pokedex-screen">
+                <div class="pokemon-display">
+                    <img id="pokemon-image" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png" alt="Pokemon">
+                </div>
+                <div class="pokemon-details">
+                    <h2 id="pokemon-name" class="pokemon-name">Nome</h2>                    
+                </div>
+            </div>
+            <div class="pokedex-screen-buttons">
+                <p id="pokemon-id" class="pokemon-id">Número</p>
+                <p id="pokemon-type" class="pokemon-type">Tipo</p>
+                <div class="pokedex-button small-green"></div>
+                <div class="pokedex-button small-green"></div>
+            </div>
+        </div>
+        <div class="pokedex-description"><p id="pokemon-description" class="pokemon-description">Descrição.</p></div>
+        
+        <form id="search-form" class="pokedex-controls">
+            <div class="pokedex-dpad">
+                <div class="dpad-vertical"></div>
+                <div class="dpad-horizontal"></div>
+            </div>
+            
+            <div class="search-area">
+                <input type="text" name="pokemon_name" placeholder="Nome do Pokémon" class="pokemon-input" required>
+                <button type="submit" class="pokedex-button black-button">Buscar</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
