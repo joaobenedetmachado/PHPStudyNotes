@@ -31,6 +31,19 @@
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         curl_close($ch);
+
+        $descurl = $pokemonData['species'][url];
+
+        // Curl é usado para fazer a conexão HTTP
+        $ch = curl_init();
+        
+        curl_setopt($ch, CURLOPT_URL, $descurl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $apiResponseDesc = curl_exec($ch);
+        curl_close($ch);
+
+        $descdata = json_decode($apiResponseDesc, true);
  
     // Se for bem sucedido e ter resposta (code 200), pega as informações json e decoda
     if($httpCode == 200 && $apiResponse){
