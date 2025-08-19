@@ -32,7 +32,18 @@
 
         curl_close($ch);
 
-        $descurl = $pokemonData['species'][url];
+        
+ 
+    // Se for bem sucedido e ter resposta (code 200), pega as informações json e decoda
+    if($httpCode == 200 && $apiResponse){
+        $pokemonData = json_decode($apiResponse, true);
+
+        $pokemonName = ucfirst($pokemonData['name']);
+        $pokemonId = $pokemonData['id'];
+        $pokemonType = ucfirst($pokemonData['types'][0]['type']['name']);
+        $pokemonImage = $pokemonData['sprites']['other']['official-artwork']['front_default'];
+
+        $descurl = $pokemonData['species']['url'];
 
         // Curl é usado para fazer a conexão HTTP
         $ch = curl_init();
@@ -44,23 +55,23 @@
         curl_close($ch);
 
         $descdata = json_decode($apiResponseDesc, true);
- 
-    // Se for bem sucedido e ter resposta (code 200), pega as informações json e decoda
-    if($httpCode == 200 && $apiResponse){
-        $pokemonData = json_decode($apiResponse, true);
 
-        $pokemonName = ucfirst($pokemonData['name']);
-        $pokemonId = $pokemonData['id'];
-        $pokemonType = ucfirst($pokemonData['types'][0]['type']['name']);
-        $pokemonImage = $pokemonData['sprites']['other']['official-artwork']['front_default'];
+        $description = "";
+
+        foreach($descdata['flavor_text_entries'] as $entry) {
+            if ($entry['language']['name'] == 'en') {
+                $description = $entry['flavor_text'];
+                break;
+            }
+        }
         
         $response = array(
             "success" => true,
             "name" => $pokemonName,
             "id" => $pokemonId,
             "type" => $pokemonType,
-            "description" => "Descrição não disponível via API oficial.",
-            "image" => $pokemonImage
+            "description" => $description,
+            "image" => $pokemonImage,
         );
     } else {
         $response['description'] = "Erro HTTP: $httpCode";
