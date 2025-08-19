@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gatos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Novo Gato</h1>
+        <div class="image-box">
+            <img id="cat-image" alt="Imagem de um gato">
+        </div>
+        <button id="get-cat-btn" onclick="buscarGato()">Buscar</button>
+    </div>
+
+    <script>
+        function buscarGato() {
+    var CatImage = ''
+
+    
+
+    fetch('backend.php') 
+  .then(response => response.json())
+  .then(data => {
+      console.log(data);
+
+      if (data.image && data.image.length > 0) {
+          let CatImage = data.image[0].url;
+          document.querySelector('#cat-image').src = CatImage;
+          console.log(CatImage);
+      } else {
+          console.error("Nenhuma imagem recebida");
+      }
+  })
+  .catch(error => {
+      console.error('Erro: ', error);
+  });
+
+    }
+    </script>
+
+</body>
+</html>
+
