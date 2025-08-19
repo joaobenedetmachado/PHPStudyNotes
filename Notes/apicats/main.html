@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gatos</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <div class="container">
         <h1>Novo Gato</h1>
+        <p id="cidade"></p>
         <div class="image-box">
             <img id="cat-image" alt="Imagem de um gato">
         </div>
@@ -17,31 +20,48 @@
     </div>
 
     <script>
+
+        function buscarCidade() {
+            fetch('clima.php')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                        var cityapi = data.city;
+                        document.querySelector('#cidade').innerText = "📍 " + cityapi['city'];
+                        console.log(cityapi[0][city]);
+                        console.log(cityapi[city]['city'])
+                })
+                .catch(error => {
+                    console.error('Erro: ', error);
+                });
+        }
+
+        setInterval(buscarCidade, 5000);
+
+
         function buscarGato() {
-    var CatImage = ''
+            var CatImage = ''
 
-    
+            fetch('backend.php')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
 
-    fetch('backend.php') 
-  .then(response => response.json())
-  .then(data => {
-      console.log(data);
+                    if (data.image && data.image.length > 0) {
+                        let CatImage = data.image[0].url;
+                        document.querySelector('#cat-image').src = CatImage;
+                        console.log(CatImage);
+                    } else {
+                        console.error("Nenhuma imagem recebida");
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro: ', error);
+                });
 
-      if (data.image && data.image.length > 0) {
-          let CatImage = data.image[0].url;
-          document.querySelector('#cat-image').src = CatImage;
-          console.log(CatImage);
-      } else {
-          console.error("Nenhuma imagem recebida");
-      }
-  })
-  .catch(error => {
-      console.error('Erro: ', error);
-  });
-
-    }
+        }
     </script>
 
 </body>
-</html>
 
+</html>

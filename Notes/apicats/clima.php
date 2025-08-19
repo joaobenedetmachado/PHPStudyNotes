@@ -6,10 +6,10 @@
     header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
     $response = array(
-        "image" => "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png"
+        "city" => "sem cidade"
     );
 
-        $url = "https://api.thecatapi.com/v1/images/search";
+        $url = "http://ip-api.com/json/";
 
         $ch = curl_init();
         
@@ -24,10 +24,10 @@
         
  
     if($httpCode == 200 && $apiResponse){
-        $imageCat = json_decode($apiResponse, true);
+        $city = json_decode($apiResponse, true);
 
         $response = array(
-            "image" => $imageCat,
+            "city" => $city,
         );
     } else {
         $response = "Erro HTTP: $httpCode";
